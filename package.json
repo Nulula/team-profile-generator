@@ -1,0 +1,29 @@
+{
+  "name": "team-profile-generator",
+  "version": "1.0.0",
+  "description": "Node-based package for creating team profiles and write those to HTML file",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nulula/team-profile-generator.git"
+  },
+  "keywords": [
+    "generator",
+    "node"
+  ],
+  "author": "Marta Perlinska",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Nulula/team-profile-generator/issues"
+  },
+  "homepage": "https://github.com/Nulula/team-profile-generator",
+  "dependencies": {
+    "jest": "^29.4.3"
+  }
+}
