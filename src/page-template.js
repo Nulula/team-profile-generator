@@ -1,5 +1,3 @@
-const team = require("../index.js");
-
 // creates the team
 const generateTeam = team => {
 
