@@ -5,7 +5,7 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
+const OUTPUT_DIR = path.resolve("C:\Users\nulul\bootcamp\bootcamp\repos\team-profile-generator\src", "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
@@ -94,24 +94,11 @@ async function init() {
             commonQuestions
         );
     
-        // .then((responses) =>
-        // {
-        //     const manager = new Manager(responses.name,responses.id,responses.email);
-        //     return manager;
-        // }
-        // ).catch((err) =>
-        // {console.log('err')});
-
     const managerQuestionsAnswers = await inquirer
         .prompt(
             managerQuestions
         );
-        // .then((responses) =>
-        // {
-        //     return manager.officeNumber = responses.officeNumber
-
-        // });
-
+        
     const manager = new Manager(
         commonQuestionsAnswers.name,
         commonQuestionsAnswers.id,
@@ -174,10 +161,17 @@ async function init() {
         }
     } while(menuAnswers.menu!=="Finish building team");
 
-console.log(team);
-
+    return team;
 };
 
-init();
-
-module.exports = team;
+function buildTeam() {
+    init()
+      .then((team) => {
+        const renderHTML = render(team);
+        fs.writeFile(outputPath, renderHTML);
+        console.log(`Your website has been generated at ${outputPath}`);
+      })
+      .catch((err) => console.error(err));
+  }
+  
+  buildTeam();
