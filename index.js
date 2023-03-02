@@ -5,8 +5,7 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve("C:\Users\nulul\bootcamp\bootcamp\repos\team-profile-generator\src", "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+const outputPath = "./team.html";
 
 const render = require("./src/page-template.js");
 
@@ -168,7 +167,7 @@ function buildTeam() {
     init()
       .then((team) => {
         const renderHTML = render(team);
-        fs.writeFile(outputPath, renderHTML);
+        fs.writeFile(outputPath, renderHTML, (err) => console.error(err));
         console.log(`Your website has been generated at ${outputPath}`);
       })
       .catch((err) => console.error(err));
