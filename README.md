@@ -29,8 +29,7 @@
   ## Tests
   with jest (tests available in the folder)
   ## Screenshot
-
-    ![screenshot](assets\screenshot.jpg)
+  ![screenshot](assets\screenshot.jpg)
 
   Repository adress: https://github.com/Nulula
  
