@@ -5,8 +5,7 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+const outputPath = "./team.html";
 
 const render = require("./src/page-template.js");
 
@@ -83,34 +82,22 @@ const welcomeMessage = `
 Welcome to team builder website. 
 Please follow the simple prompts to  generate a website listing all your team members`;
 
+
+const team = [];
+
 async function init() {
     console.log(welcomeMessage);
-
-    const team = [];
 
     const commonQuestionsAnswers = await inquirer
         .prompt(
             commonQuestions
         );
     
-        // .then((responses) =>
-        // {
-        //     const manager = new Manager(responses.name,responses.id,responses.email);
-        //     return manager;
-        // }
-        // ).catch((err) =>
-        // {console.log('err')});
-
     const managerQuestionsAnswers = await inquirer
         .prompt(
             managerQuestions
         );
-        // .then((responses) =>
-        // {
-        //     return manager.officeNumber = responses.officeNumber
-
-        // });
-
+        
     const manager = new Manager(
         commonQuestionsAnswers.name,
         commonQuestionsAnswers.id,
@@ -120,56 +107,70 @@ async function init() {
 
     team.push(manager);
 
-    while(true) {
-        const menuAnswers = await inquirer
+    let menuAnswers;
+
+    do {
+        menuAnswers = await inquirer
         .prompt(
             menuQuestions
         );
 
         switch (menuAnswers.menu) {
             case "Add an engineer":
-                commonQuestionsAnswers;
+                const commonQuestionsAnswersEngineer = await inquirer
+                .prompt(
+                    commonQuestions
+                );
                 const engineerAnswers = await inquirer
                 .prompt(
                     engineerQuestions
                 );
 
                 const engineer = new Engineer(
-                    commonQuestionsAnswers.name,
-                    commonQuestionsAnswers.id,
-                    commonQuestionsAnswers.email,
+                    commonQuestionsAnswersEngineer.name,
+                    commonQuestionsAnswersEngineer.id,
+                    commonQuestionsAnswersEngineer.email,
                     engineerAnswers.github
                 );
                 team.push(engineer);
                 break;
             
             case "Add an intern":
-                commonQuestionsAnswers;
+                const commonQuestionsAnswersIntern = await inquirer
+                .prompt(
+                    commonQuestions
+                );
                 const internAnswers = await inquirer
                 .prompt(
                     internQuestions
                 );
 
                 const intern = new Intern(
-                    commonQuestionsAnswers.name,
-                    commonQuestionsAnswers.id,
-                    commonQuestionsAnswers.email,
+                    commonQuestionsAnswersIntern.name,
+                    commonQuestionsAnswersIntern.id,
+                    commonQuestionsAnswersIntern.email,
                     internAnswers.school
                 );
                 team.push(intern);
                 break;
-            
             case "Finish building team":
                 console.log(`
-Finished building team.
-Your website has been generated`);
-console.log(team);
-                break;
+                Finished building team.
+                Your website has been generated`);
         }
-    }
+    } while(menuAnswers.menu!=="Finish building team");
 
+    return team;
 };
 
-init();
-
-module.exports = team;
+function buildTeam() {
+    init()
+      .then((team) => {
+        const renderHTML = render(team);
+        fs.writeFile(outputPath, renderHTML, (err) => console.error(err));
+        console.log(`Your website has been generated at ${outputPath}`);
+      })
+      .catch((err) => console.error(err));
+  }
+  
+  buildTeam();
